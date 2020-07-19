@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/ubuntu
+{
+	"name": "Ubuntu",
+	"build": {
+		"dockerfile": "../docker/Dockerfile",
+		"args": {
+			"VSCODE": "true",
+			"IMAGE": "mcr.microsoft.com/vscode/devcontainers/base:0-ubuntu20.04",
+		}
+	},
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"twxs.cmake",
+		"llvm-vs-code-extensions.vscode-clangd",
+		"webfreak.debug",
+		"matepek.vscode-catch2-test-adapter",
+		"hbenl.vscode-test-explorer",
+		"ryanluker.vscode-coverage-gutters",
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined",
+		// Container shares the host’s networking namespace
+		"--net=host",
+		// Allows to run GUI X11 applications inside container
+		"--env=DISPLAY",
+		"--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
+		// Allows to use OpenGL acceleration
+		"--privileged",
+	],
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}

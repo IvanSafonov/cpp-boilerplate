@@ -1,0 +1,97 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Configure",
+      "type": "shell",
+      "group": "build",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCLANG_TIDY=OFF",
+        "-DTESTS=ON",
+        "-DCOVERAGE=ON",
+        "-DCOVERAGE_LCOV=ON",
+        "-DCOVERAGE_TEXT=OFF",
+        "-DCOVERAGE_HTML=OFF",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=1",
+        "-GNinja",
+        "-S",
+        ".",
+        "-B",
+        "build"
+      ],
+      "problemMatcher": []
+    },
+    {
+      // https://github.com/clangd/clangd/issues/83
+      "label": "Restart clangd",
+      "group": "build",
+      "command": "echo",
+      "args": [
+        "${command:clangd.restart}"
+      ]
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "cmake --build build",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Configure",
+        "Restart clangd"
+      ],
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": [
+          "absolute",
+        ],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+    },
+    {
+      "label": "Run all test",
+      "type": "shell",
+      "group": "test",
+      "command": "cmake --build build --target test",
+      "dependsOn": "Build"
+    },
+    {
+      "label": "Run all tests with code coverage",
+      "type": "shell",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "command": "cmake --build build --target coverage",
+      "dependsOn": "Build"
+    },
+    {
+      "label": "Check format",
+      "type": "shell",
+      "group": "none",
+      "command": "tools/check-format.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Fix format",
+      "type": "shell",
+      "group": "none",
+      "command": "tools/check-format.sh --fix",
+      "problemMatcher": []
+    },
+  ]
+}

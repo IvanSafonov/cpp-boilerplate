@@ -1,0 +1,1 @@
+add_unit_test(app app.cpp LIBS App ModuleMocks)

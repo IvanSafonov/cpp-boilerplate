@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "clangd.arguments": [
+    "--compile-commands-dir=build"
+  ],
+  "coverage-gutters.coverageFileNames": [
+    "build/coverage/lcov.info"
+  ],
+  "coverage-gutters.coverageReportFileName": "build/coverage/html/index.html",
+  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showRulerCoverage": true,
+}
