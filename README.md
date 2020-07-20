@@ -11,6 +11,7 @@ Quick setup for a new C++ project in Visual Studio Code.
 * Clone this project and open in VS Code
 * In Command Palette find and click on the **Remote-Containers: Reopen in Container**
 * Build project with **Tasks: Run build task** command
+* Restart clangd with **Restart the clangd language server** command if it cannot find include files
 
 # Features
 
